@@ -13,6 +13,11 @@ const kafka = new Kafka({
 
 const consumer = kafka.consumer({ groupId: GROUP_ID })
 
+type SampleModel = {
+  id: number
+  name: string
+}
+
 const run = async () => {
   // Consuming
   await consumer.connect()
@@ -25,8 +30,34 @@ const run = async () => {
         offset: message.offset,
         value: message?.value?.toString(),
       })
+      const rawMessage = message?.value?.toString() || ""
+
+      try {
+        const data = parseData(rawMessage)
+        sendToWaitingListApi(data!)
+      } catch (error) {
+        console.error(error)
+        sendToDeadLetterQueue(rawMessage)
+      }
     },
   })
 }
 
 run().catch(console.error)
+
+function parseData(message: string): SampleModel | undefined {
+  try {
+    const data: SampleModel = JSON.parse(message)
+    return data
+  } catch (error) {
+    return
+  }
+}
+
+function sendToDeadLetterQueue(message: string): void {
+  // TODO: implement this
+}
+
+function sendToWaitingListApi(data: SampleModel) {
+  // TODO: implement this
+}
