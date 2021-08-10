@@ -2,9 +2,9 @@ import { Patient, WaitingListApiRequest } from "./models"
 
 export const mockPatientData: Patient = {
   id: 1,
-  createdAt: new Date(),
-  updatedAt: new Date(),
-  deletedAt: new Date(),
+  createdAt: new Date().toISOString(),
+  updatedAt: new Date().toISOString(),
+  deletedAt: new Date().toISOString(),
   riskScore: {
     InclusionLabel: "",
     InclusionLabelType: "",

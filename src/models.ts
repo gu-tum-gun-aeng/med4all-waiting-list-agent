@@ -1,8 +1,8 @@
 export type Patient = {
   readonly id: number
-  readonly createdAt?: Date
-  readonly updatedAt?: Date
-  readonly deletedAt?: Date
+  readonly createdAt?: string
+  readonly updatedAt?: string
+  readonly deletedAt?: string
   readonly riskScore: RiskScore
 }
 

@@ -2,10 +2,6 @@ import axios from "axios"
 import { Kafka } from "kafkajs"
 import { v4 as uuidv4 } from "uuid"
 
-import { mockWaitingListApiRequest } from "./mocks"
-import { Patient } from "./models"
-import { WaitingListApiRequest } from "./models"
-
 const TOPIC = "patient.with-risk-score.main"
 const DEAD_LETTER_QUEUE_TOPIC = "patient.with-risk-score.dlq"
 const CLIENT_ID = `med4all-waiting-list-agent-${uuidv4()}`
@@ -34,27 +30,21 @@ const run = async () => {
         offset: message.offset,
         value: message?.value?.toString(),
       })
+      
       const rawMessage = message?.value?.toString() || ""
-
-      try {
-        const patientData = parseData(rawMessage)
-        await sendToWaitingListApi(patientData!)
-      } catch (error) {
-        console.error(error)
-        await sendToDeadLetterQueue(rawMessage)
-      }
+      processMessage(rawMessage)
     },
   })
 }
 
 run().catch(console.error)
 
-function parseData(message: string): Patient | undefined {
+export async function processMessage(message: string): Promise<void> {
   try {
-    const data: Patient = JSON.parse(message)
-    return data
+    await sendToWaitingListApi(message)
   } catch (error) {
-    return
+    console.error(error)
+    await sendToDeadLetterQueue(message)
   }
 }
 
@@ -66,9 +56,6 @@ async function sendToDeadLetterQueue(message: string): Promise<void> {
   })
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-async function sendToWaitingListApi(_data: Patient): Promise<void> {
-  // TODO: remove mock and transform Patient data to fit api body
-  const requestData: WaitingListApiRequest = mockWaitingListApiRequest  
-  await axios.post(WAITING_LIST_API_URL, requestData)
+async function sendToWaitingListApi(data: string): Promise<void> {
+  await axios.post(WAITING_LIST_API_URL, data)
 }
