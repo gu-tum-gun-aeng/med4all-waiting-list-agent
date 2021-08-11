@@ -17,11 +17,8 @@ jobs:
         with:
           node-version: '16'
 
-      - name: Install Yarn
-        run: npm install --global yarn
-
       - name: Install dependencies
-        run: yarn install
+        run: npm install --force
 
       - name: Run linter
         run: npm run test:lint
