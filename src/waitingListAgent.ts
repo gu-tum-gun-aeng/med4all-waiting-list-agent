@@ -9,10 +9,7 @@ const DEAD_LETTER_QUEUE_TOPIC = "patient.with-risk-score.dlq"
 
 const waitingListAgent = {
   consumePatientWithRiskScore: async () => {
-    await messageQueue.consume(
-      TOPIC,
-      waitingListAgent.processMessage
-    )
+    await messageQueue.consume(TOPIC, waitingListAgent.processMessage)
   },
   processMessage: async (message: string) => {
     try {
@@ -20,7 +17,7 @@ const waitingListAgent = {
     } catch (error) {
       await sendToDeadLetterQueue(message)
     }
-  }
+  },
 }
 
 async function sendToWaitingListApi(data: string): Promise<void> {

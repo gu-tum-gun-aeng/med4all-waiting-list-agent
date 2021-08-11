@@ -8,7 +8,7 @@ export const mockPatientData: Patient = {
   riskScore: {
     InclusionLabel: "",
     InclusionLabelType: "",
-    TriageScore: ""
+    TriageScore: "",
   },
 }
 
@@ -113,6 +113,6 @@ export const mockWaitingListApiRequest: WaitingListApiRequest = {
   riskScore: {
     InclusionLabel: "",
     InclusionLabelType: "",
-    TriageScore: ""
+    TriageScore: "",
   },
 }

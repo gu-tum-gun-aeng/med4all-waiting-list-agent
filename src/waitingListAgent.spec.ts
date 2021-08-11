@@ -11,7 +11,7 @@ afterEach(() => {
 test("waitingListAgent.processMessage should call axios.post once", async () => {
   const axiosStub = sinon.stub(axios, "post")
 
-  axiosStub.returns(Promise.resolve({ result: "success"}))
+  axiosStub.returns(Promise.resolve({ result: "success" }))
 
   await waitingListAgent.processMessage("blahblah")
 

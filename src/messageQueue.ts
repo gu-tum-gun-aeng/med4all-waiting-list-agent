@@ -18,10 +18,7 @@ const messageQueue = {
     producer = kafka.producer()
     consumer = kafka.consumer({ groupId: GROUP_ID })
   },
-  consume: async (
-    topic: string,
-    cb: (message: string) => Promise<void>
-  ) => {
+  consume: async (topic: string, cb: (message: string) => Promise<void>) => {
     await consumer.connect()
     await consumer.subscribe({ topic: topic, fromBeginning: true })
 
@@ -33,24 +30,23 @@ const messageQueue = {
           value: message.value?.toString(),
         })
 
-        if (message.value === null) { return }        
-        
+        if (message.value === null) {
+          return
+        }
+
         cb(message.value.toString())
       },
     })
     // TODO: disconnect consumer here
   },
-  publish: async (
-    topic: string,
-    message: string
-  ): Promise<void> => {
+  publish: async (topic: string, message: string): Promise<void> => {
     await producer.connect()
     await producer.send({
       topic,
       messages: [{ value: message }],
     })
     await producer.disconnect()
-  }
+  },
 }
 
 export default messageQueue
