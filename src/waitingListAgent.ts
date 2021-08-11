@@ -16,9 +16,8 @@ const waitingListAgent = {
   },
   processMessage: async (message: string) => {
     try {
-      sendToWaitingListApi(message)
+      await sendToWaitingListApi(message)
     } catch (error) {
-      console.error(error)
       await sendToDeadLetterQueue(message)
     }
   }
@@ -29,7 +28,7 @@ async function sendToWaitingListApi(data: string): Promise<void> {
 }
 
 async function sendToDeadLetterQueue(message: string): Promise<void> {
-  messageQueue.publish(DEAD_LETTER_QUEUE_TOPIC, message)
+  await messageQueue.publish(DEAD_LETTER_QUEUE_TOPIC, message)
 }
 
 export default waitingListAgent
