@@ -31,3 +31,8 @@ jobs:
 
       - name: Run coverage
         run: npm run cov
+
+      - name: Run codecov
+        uses: codecov/codecov-action@v1
+        with:
+          file: ./coverage/clover.xml
