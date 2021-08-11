@@ -1,15 +1,17 @@
 import axios from "axios"
 
+import config from "./config"
+import { TOPIC } from "./constants"
 import messageQueue from "./messageQueue"
 
-const WAITING_LIST_API_URL = "http://localhost:8999/ps/patient/create"
-
-const TOPIC = "patient.with-risk-score.main"
-const DEAD_LETTER_QUEUE_TOPIC = "patient.with-risk-score.dlq"
+const WAITING_LIST_API_URL = config.waitingListApiUrl
 
 const waitingListAgent = {
   consumePatientWithRiskScore: async () => {
-    await messageQueue.consume(TOPIC, waitingListAgent.processMessage)
+    await messageQueue.consume(
+      TOPIC.PATIENT_WITH_RISK_SCORE_MAIN,
+      waitingListAgent.processMessage
+    )
   },
   processMessage: async (message: string) => {
     try {
@@ -25,7 +27,7 @@ async function sendToWaitingListApi(data: string): Promise<void> {
 }
 
 async function sendToDeadLetterQueue(message: string): Promise<void> {
-  await messageQueue.publish(DEAD_LETTER_QUEUE_TOPIC, message)
+  await messageQueue.publish(TOPIC.PATIENT_WITH_RISK_SCORE_DLQ, message)
 }
 
 export default waitingListAgent

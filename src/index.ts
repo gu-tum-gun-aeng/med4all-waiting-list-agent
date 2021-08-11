@@ -1,3 +1,6 @@
+import Dotenv from "dotenv"
+Dotenv.config()
+
 import messageQueue from "./messageQueue"
 import waitingListAgent from "./waitingListAgent"
 

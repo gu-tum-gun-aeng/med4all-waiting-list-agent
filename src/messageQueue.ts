@@ -1,13 +1,15 @@
 import { Consumer, Kafka, Producer } from "kafkajs"
 import { v4 as uuidv4 } from "uuid"
 
+import config from "./config"
+
 let kafka: Kafka
 let producer: Producer
 let consumer: Consumer
 
 const CLIENT_ID = `med4all-waiting-list-agent-${uuidv4()}`
-const BROKER_LIST = ["localhost:9092"]
-const GROUP_ID = "test-group"
+const BROKER_LIST = config.kafkaBrokerList
+const GROUP_ID = config.kafkaGroupId
 
 const messageQueue = {
   initialize: () => {
