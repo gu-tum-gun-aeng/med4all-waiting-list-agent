@@ -31,8 +31,6 @@ jobs:
 
       - name: Run codecov
         uses: codecov/codecov-action@v1
-        with:
-          file: ./coverage/clover.xml
 
       - name: Bump version and push tag
         id: tag_version
