@@ -10,7 +10,7 @@ const BROKER_LIST = ["localhost:9092"]
 const GROUP_ID = "test-group"
 
 const messageQueue = {
-  init: () => {
+  initialize: () => {
     kafka = new Kafka({
       clientId: CLIENT_ID,
       brokers: BROKER_LIST,
