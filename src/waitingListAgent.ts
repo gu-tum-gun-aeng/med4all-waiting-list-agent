@@ -3,8 +3,9 @@ import axios from "axios"
 import config from "./config"
 import { TOPIC } from "./constants"
 import messageQueue from "./messageQueue"
+import { traceWrapperAsync } from "./util/tracer"
 
-const { 
+const {
   waitingListApiUrl: WAITING_LIST_API_URL,
   waitingListApiKey: WAITING_LIST_API_KEY,
 } = config
@@ -28,7 +29,14 @@ const waitingListAgent = {
 async function sendToWaitingListApi(data: string): Promise<void> {
   const headers = { "covid-wl-api-key": WAITING_LIST_API_KEY }
 
-  await axios.post(WAITING_LIST_API_URL, data, { headers })
+  await traceWrapperAsync(
+    async () => {
+      await axios.post(WAITING_LIST_API_URL, data, { headers })
+    },
+    "external",
+    "sendToWaitingListApi",
+    true
+  )
 }
 
 async function sendToDeadLetterQueue(message: string): Promise<void> {

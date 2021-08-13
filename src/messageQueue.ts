@@ -2,6 +2,7 @@ import { Consumer, Kafka, Producer } from "kafkajs"
 import { v4 as uuidv4 } from "uuid"
 
 import config from "./config"
+import { traceWrapperAsync } from "./util/tracer"
 
 let kafka: Kafka
 let producer: Producer
@@ -38,10 +39,16 @@ const messageQueue = {
   },
   publish: async (topic: string, message: string): Promise<void> => {
     await producer.connect()
-    await producer.send({
-      topic,
-      messages: [{ value: message }],
-    })
+    await traceWrapperAsync(
+      async () => {
+        await producer.send({
+          topic,
+          messages: [{ value: message }],
+        })
+      },
+      "external",
+      "kafkaPublish"
+    )
     await producer.disconnect()
   },
 }
