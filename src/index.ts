@@ -11,7 +11,6 @@ messageQueue.initialize()
 
 const run = async () => {
   await waitingListAgent.consumePatientWithRiskScore()
+  logger.info("Terminating Application")
 }
 run().catch(console.error)
-
-logger.info("Terminating Application")
