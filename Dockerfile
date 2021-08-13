@@ -17,5 +17,8 @@ WORKDIR /usr/src/app
 
 COPY --from=BUILDER /usr/src/app/build ./build
 COPY --from=BUILDER /usr/src/app/node_modules ./node_modules
+COPY --from=BUILDER /usr/src/app/config ./config
+
+ENV NODE_ENV production
 
 CMD ["node", "build/main/index"]
