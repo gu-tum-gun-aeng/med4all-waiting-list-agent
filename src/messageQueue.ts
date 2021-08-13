@@ -26,13 +26,7 @@ const messageQueue = {
     await consumer.subscribe({ topic: topic, fromBeginning: true })
 
     await consumer.run({
-      eachMessage: async ({ partition, message }) => {
-        console.log({
-          partition,
-          offset: message.offset,
-          value: message.value?.toString(),
-        })
-
+      eachMessage: async ({ message }) => {
         if (message.value === null) {
           return
         }
