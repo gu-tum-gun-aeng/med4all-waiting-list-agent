@@ -16,6 +16,7 @@ const messageQueue = {
     kafka = new Kafka({
       clientId: CLIENT_ID,
       brokers: BROKER_LIST,
+      ssl: true,
     })
     producer = kafka.producer()
     consumer = kafka.consumer({ groupId: GROUP_ID })
