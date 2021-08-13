@@ -33,7 +33,7 @@ const messageQueue = {
             if (message.value === null) {
               return
             }
-    
+
             cb(message.value.toString())
           },
           "route",
