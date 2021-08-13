@@ -4,7 +4,10 @@ import config from "./config"
 import { TOPIC } from "./constants"
 import messageQueue from "./messageQueue"
 
-const WAITING_LIST_API_URL = config.waitingListApiUrl
+const { 
+  waitingListApiUrl: WAITING_LIST_API_URL,
+  waitingListApiKey: WAITING_LIST_API_KEY,
+} = config
 
 const waitingListAgent = {
   consumePatientWithRiskScore: async () => {
@@ -23,7 +26,9 @@ const waitingListAgent = {
 }
 
 async function sendToWaitingListApi(data: string): Promise<void> {
-  await axios.post(WAITING_LIST_API_URL, data)
+  const headers = { "covid-wl-api-key": WAITING_LIST_API_KEY }
+
+  await axios.post(WAITING_LIST_API_URL, data, { headers })
 }
 
 async function sendToDeadLetterQueue(message: string): Promise<void> {
