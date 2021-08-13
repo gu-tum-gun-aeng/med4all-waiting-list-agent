@@ -1,0 +1,9 @@
+{
+  "app": {
+    "name": "med4all-waiting-list-agent"
+  },
+  "env": "production",
+  "log": {
+    "level": "trace"
+  }
+}
