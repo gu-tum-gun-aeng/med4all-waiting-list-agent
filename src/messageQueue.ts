@@ -28,11 +28,17 @@ const messageQueue = {
 
     await consumer.run({
       eachMessage: async ({ message }) => {
-        if (message.value === null) {
-          return
-        }
-
-        cb(message.value.toString())
+        await traceWrapperAsync(
+          async () => {
+            if (message.value === null) {
+              return
+            }
+    
+            cb(message.value.toString())
+          },
+          "route",
+          `${topic}::consume`
+        )
       },
     })
     // TODO: disconnect consumer here
@@ -47,7 +53,7 @@ const messageQueue = {
         })
       },
       "external",
-      "kafkaPublish"
+      `${topic}::publish`
     )
     await producer.disconnect()
   },
