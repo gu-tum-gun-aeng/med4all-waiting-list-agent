@@ -24,7 +24,7 @@ const messageQueue = {
   },
   consume: async (topic: string, cb: (message: string) => Promise<void>) => {
     await consumer.connect()
-    await consumer.subscribe({ topic: topic, fromBeginning: true })
+    await consumer.subscribe({ topic: topic })
 
     await consumer.run({
       eachMessage: async ({ message }) => {
