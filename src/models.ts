@@ -43,7 +43,6 @@ export type WaitingListApiRequest = {
   emLaboratoryTestDate?: string // "2021-08-09T00:00:00.000+07:00"
   emPatientGotFavipiravir?: boolean
   emPatientGotFavipiravirDate?: string // "2021-06-01"
-  emPatientCommitStatusCode: number
   emPatientCommitTemperature?: number
   emPatientCommitPulse?: number
   emPatientCommitOxygenSaturation?: number

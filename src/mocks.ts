@@ -36,7 +36,6 @@ export const mockWaitingListApiRequest: WaitingListApiRequest = {
   emLaboratoryTestDate: "2021-08-09T00:00:00.000+07:00",
   emPatientGotFavipiravir: true,
   emPatientGotFavipiravirDate: "2021-06-01",
-  emPatientCommitStatusCode: 4,
   emPatientCommitTemperature: 39,
   emPatientCommitPulse: 47,
   emPatientCommitOxygenSaturation: 86,
