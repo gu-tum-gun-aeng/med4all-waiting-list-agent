@@ -108,10 +108,10 @@ export type WaitingListApiRequest = {
   emPatientWaitingHours?: number
   emSourceNumberCode?: number
   emMoveToLocationCode?: string
-  emMoveToLocationTypeCode?: number
+  emMoveToLocationTypeCode?: string
   emMoveFromLocationCode?: string
-  emMoveFromLocationTypeCode?: number
-  emMoveToMethodCode?: number
+  emMoveFromLocationTypeCode?: string
+  emMoveToMethodCode?: string
   cdOrganizationMedicalUnit?: number
   hsPatientHospitalNumber?: string
   hsPatientAdmissionNumber?: string
