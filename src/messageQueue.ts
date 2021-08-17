@@ -11,12 +11,14 @@ let consumer: Consumer
 const CLIENT_ID = `med4all-waiting-list-agent-${uuidv4()}`
 const BROKER_LIST = config.kafkaBrokerList
 const GROUP_ID = config.kafkaGroupId
+const CONNECTION_TIMEOUT = config.kafkaConnectionTimeout
 
 const messageQueue = {
   initialize: () => {
     kafka = new Kafka({
       clientId: CLIENT_ID,
       brokers: BROKER_LIST,
+      connectionTimeout: CONNECTION_TIMEOUT,
       ssl: true,
     })
     producer = kafka.producer()
