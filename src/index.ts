@@ -7,10 +7,9 @@ import waitingListAgent from "./waitingListAgent"
 
 logger.info("Start Application")
 
-messageQueue.initialize()
-
 const run = async () => {
+  await messageQueue.initialize()
   await waitingListAgent.consumePatientWithRiskScore()
   logger.info("Terminating Application")
 }
-run().catch(console.error)
+run().catch(logger.error)

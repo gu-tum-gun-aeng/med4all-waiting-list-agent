@@ -14,7 +14,7 @@ const GROUP_ID = config.kafkaGroupId
 const CONNECTION_TIMEOUT = config.kafkaConnectionTimeout
 
 const messageQueue = {
-  initialize: () => {
+  initialize: async () => {
     kafka = new Kafka({
       clientId: CLIENT_ID,
       brokers: BROKER_LIST,
@@ -23,11 +23,11 @@ const messageQueue = {
     })
     producer = kafka.producer()
     consumer = kafka.consumer({ groupId: GROUP_ID })
+    await consumer.connect()
+    await producer.connect()
   },
   consume: async (topic: string, cb: (message: string) => Promise<void>) => {
-    await consumer.connect()
     await consumer.subscribe({ topic: topic })
-
     await consumer.run({
       eachMessage: async ({ message }) => {
         await traceWrapperAsync(
@@ -43,10 +43,8 @@ const messageQueue = {
         )
       },
     })
-    // TODO: disconnect consumer here
   },
   publish: async (topic: string, message: string): Promise<void> => {
-    await producer.connect()
     await traceWrapperAsync(
       async () => {
         await producer.send({
@@ -57,7 +55,6 @@ const messageQueue = {
       "external",
       `${topic}::publish`
     )
-    await producer.disconnect()
   },
 }
 
